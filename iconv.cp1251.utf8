@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#NEMO_SCRIPT_SELECTED_FILE_PATHS: список выделенных файлов, разделённых переводом строки (только в локальном случае)
+#NEMO_SCRIPT_SELECTED_URIS: список адресов (URI) выделенных файлов, разделённых переводом строки
+#NEMO_SCRIPT_CURRENT_URI: текущий адрес URI
+#NEMO_SCRIPT_WINDOW_GEOMETRY: положение и размер текущего окна
+
+IFS=$'\n'
+n=0
+
+for _ in $NEMO_SCRIPT_SELECTED_FILE_PATHS; do n=$(($n + 1)); done
+i=0
+
+for name in $NEMO_SCRIPT_SELECTED_FILE_PATHS; do
+	i=$(($i + 1))
+	if [ -f "$name" ]; then
+#		bn=`basename "$name"`
+#		echo "# $bn"
+		iconv -t utf8 -f cp1251 "$name" -o tmpfile
+		mv tmpfile "$name"
+		#mid3iconv -eCP1251 --remove-v1 "$name"
+#		notify-send -u normal -t 1000 "conv tag" "$name"
+	fi
+	echo $(($i * 100 / $n))
+done | zenity --progress --auto-close --auto-kill
+
+unset IFS

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+IFS=$'\n'
+n=0
+
+for _ in $NEMO_SCRIPT_SELECTED_FILE_PATHS; do n=$(($n + 1)); done
+i=0
+
+for name in $NEMO_SCRIPT_SELECTED_FILE_PATHS; do
+	i=$(($i + 1))
+	if [ -f "$name" ]; then
+		bn=`basename "$name"`
+		echo "# $bn"
+		new_name="${name}.avi"
+#		notify-send -u normal -t 10000 "Convert start $bn" "$name"
+#		ffmpeg -i "$name" -r 25 -vf scale=1280:-1 -c:v h264 -b:v 2500k -g 300 -bf 2 -c:a libmp3lame -b:a 128k "$new_name"
+		ffmpeg -i "$name" -r 25 -vf scale=1280:-1 -c:v h264 -b:v 3500k -g 300 -bf 2 -c:a libmp3lame -b:a 128k "$new_name"
+#		notify-send -u normal -t 10000 "Convert stop $bn" "$new_name"
+	fi
+	echo $(($i * 100 / $n))
+done | zenity --progress --auto-close --auto-kill
+
+unset IFS

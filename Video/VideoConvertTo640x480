@@ -1,0 +1,25 @@
+#!/bin/bash
+
+IFS=$'\n'
+n=0
+
+for _ in $NEMO_SCRIPT_SELECTED_FILE_PATHS; do n=$(($n + 1)); done
+i=0
+
+for name in $NEMO_SCRIPT_SELECTED_FILE_PATHS; do
+	i=$(($i + 1))
+	if [ -f "$name" ]; then
+		bn=`basename "$name"`
+		echo "# $bn"
+		new_name="${name}.640x480.avi"
+#		notify-send -u normal -t 10000 "Convert start $bn" "$name"
+		#mencoder "$name" -ovc lavc -lavcopts vcodec=mpeg4:vbitrate=400:abitrate=48 -oac copy -o "$new_name"
+		#mencoder -vf rotate=1 "$name" -ovc lavc -lavcopts vcodec=mpeg4 -oac mp3lame -lameopts preset=medium -o "$new_name"
+		#mencoder "$name" -idx -ovc lavc -lavcopts vcodec=mpeg4 -vf scale=640:320 -oac mp3lame -lameopts preset=medium -o "$new_name"
+		mencoder "$name" -ovc lavc -lavcopts vcodec=mpeg4 -vf scale=640:480 -oac mp3lame -lameopts preset=medium -o "$new_name"
+#		notify-send -u normal -t 10000 "Convert stop $bn" "$new_name"
+	fi
+	echo $(($i * 100 / $n))
+done | zenity --progress --auto-close --auto-kill
+
+unset IFS

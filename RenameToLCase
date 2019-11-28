@@ -1,0 +1,14 @@
+#!/bin/sh
+# LCase: Renames input file to LCase.
+for arg
+do
+    tmp=`echo "$arg" | tr '[A-Z]' '[a-z]'`
+
+    if [ -f $tmp ]
+    then
+        msg="LCase filename: '$tmp' already exists."
+        gdialog --msgbox "$msg" 100 100
+    else
+        mv "$arg" "$tmp"
+    fi
+done

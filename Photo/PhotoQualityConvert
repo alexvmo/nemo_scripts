@@ -1,0 +1,8 @@
+#!/bin/sh
+# uppercase: Renames input file to uppercase.
+for arg
+do
+
+convert "${arg}" -quality 82 "${arg}"
+
+done
