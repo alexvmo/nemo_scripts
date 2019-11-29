@@ -1,5 +1,6 @@
 #!/bin/sh
 # uppercase: Renames input file to uppercase.
+# Требует imagemagick
 for arg
 do
 
