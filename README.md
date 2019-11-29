@@ -1,6 +1,10 @@
 # nemo_scripts
 
-## Phpto
+Для работы необходимо установить пакеты:
+renrot
+imagemagick
+
+## Photo
 
 ## Video
 
